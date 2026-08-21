@@ -5338,6 +5338,8 @@ float WepDef_GetWeaponCrosshairType(float weapon)
 		case W_FIW:
 		case W_TESLA:
 		case W_DG3:
+		case W_DB:
+		case W_SAWNOFF:
 			return 2;
 		case W_BK:
 		case W_KRAUS:
@@ -5345,8 +5347,20 @@ float WepDef_GetWeaponCrosshairType(float weapon)
 		case W_PANZER:
 		case W_LONGINUS:
 			return 0;
+
 		default:
 			return 1;
+	}
+}
+
+float WepDef_GetWeaponAreaOfEffectCrosshair(float weapon){
+	switch(weapon){
+		case W_DB:
+		case W_SAWNOFF:
+			return 34;
+		
+		default:
+			return 14;
 	}
 }
 
