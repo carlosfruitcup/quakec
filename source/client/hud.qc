@@ -1644,6 +1644,11 @@ void() HUD_Crosshair =
 	
 	if (getstatf(STAT_HEALTH) < 1)
 		return;
+	
+	//Dot + AOE doesnt look good cause AOE  crosshair isn't 100% centered
+	if (cvar("cl_crosshairdot") && crosshair_value != 2){ 
+		drawfill([g_width, g_height] / 2 - [2, 2], [4, 4], crosshair_color, crosshair_opacity, 0); // dot
+	}
 
 	// Standard crosshair (+)
 	if (crosshair_value == 1) {
@@ -1671,8 +1676,10 @@ void() HUD_Crosshair =
 	}
 	// Area of Effect (o)
 	else if (crosshair_value == 2) {
-		float circle_offset = getTextWidth("O", 14)/2;
-		Draw_String([g_width/2 - circle_offset, g_height/2 - circle_offset], "O", [14, 14], crosshair_color, 1, 0);
+		float circle_size = cvar("crosshair_dot_size");
+
+		float circle_offset = getTextWidth("O", circle_size)/2 + 1;
+		Draw_String([g_width/2 - circle_offset, g_height/2 - circle_offset], "O", [circle_size,circle_size], crosshair_color, 1, 0);
 	}
 	// Dot crosshair (.)
 	else if (crosshair_value == 3) {
