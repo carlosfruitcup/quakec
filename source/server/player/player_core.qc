@@ -587,8 +587,8 @@ void() PlayerPreThink =
 
 #ifdef FTE
 				
-			if (checkMovement(-1))
-				self.punchangle_x = 0.25*sin(time*15);	
+//			if (checkMovement(-1))
+//				self.punchangle_x = 0.25*sin(time*15);	
 
 #endif // FTE
 
@@ -615,11 +615,11 @@ void() PlayerPreThink =
 
 #ifdef FTE
 
-		if (checkMovement(backward)) {
-			self.maxspeed *= 0.7;
-		} else if (checkMovement(left) || checkMovement(right)) {
-			self.maxspeed *= 0.8;
-		}
+		//if (checkMovement(backward)) {
+		//	self.maxspeed *= 0.7;
+		//} else if (checkMovement(left) || checkMovement(right)) {
+		//	self.maxspeed *= 0.8;
+		//}
 
 #endif // FTE
 
@@ -797,9 +797,9 @@ void() PlayerPostThink =
 
 #else
 
-		if (!self.velocity || !checkMovement(0) || self.stance != 2) { //moto (FIXME) -- move me!
-			W_SprintStop();
-		}
+		//if (!self.velocity || !checkMovement(0) || self.stance != 2) { //moto (FIXME) -- move me!
+		//	W_SprintStop();
+		//}
 
 #endif // FTE
 		
