@@ -59,6 +59,12 @@ void(entity person) W_HideCrosshair =
 // however non-FTE has no way of better controlling
 // cvars for individual clients.
 //
+// 0. No crosshair
+// 1. Standard crosshair (+)
+// 2. Area of Effect (o)
+// 3. Dot crosshair (.) (unused).
+// 4 is reserved for the grenade, do not use.
+//
 void(entity person) W_ShowCrosshair =
 {
 	if (person == world)
@@ -77,6 +83,14 @@ void(entity person) W_ShowCrosshair =
 	crosshair_string = strzone(strcat(crosshair_string, ftos(crosshair_type)));
 	stuffcmd(person, strcat(crosshair_string, "\n"));
 	strunzone(crosshair_string);
+	
+	float crosshairdot_size = WepDef_GetWeaponAreaOfEffectCrosshair(person.weapon);
+
+	string crosshairdot_string = "crosshair_dot_size ";
+	crosshairdot_string = strzone(strcat(crosshairdot_string, ftos(crosshairdot_size)));
+	stuffcmd(person, strcat(crosshairdot_string, "\n"));
+	strunzone(crosshairdot_string);
+
 }
 
 void() ReturnWeaponModel =
@@ -255,7 +269,7 @@ void() W_PutOut =
 	if (self.weapons[1].weapon_id == 0 || self.downed ||
 	self.switch_delay > time || self.weapon_burst_count > 0 || self.isBuying)
 		return;
-
+	
 	float duration = getWeaponDelay(self.weapon, PUTOUT);
 	self.switch_delay = duration + time;
 	self.semi_actions |= SEMIACTION_WEAPONSWAP;
@@ -324,6 +338,15 @@ void(float side) W_Give_Ammo =
 		self.weapons[0].weapon_magazine_left += loadammo;
 	} else {
 		self.weapons[0].weapon_magazine += loadammo;
+	}
+
+	float endframe, reloadcancelframe;
+	endframe = GetFrame(self.weapon, RELOAD_END);
+	reloadcancelframe = GetFrame(self.weapon, RELOAD_CANCEL);
+
+	//Mainly fixes an issue with the raygun not showing the crosshair after reloading (due to no cancel reload frame being added)
+	if (self.weaponframe == endframe && reloadcancelframe <= endframe){
+		W_ShowCrosshair(self);
 	}
 };
 
@@ -1706,8 +1729,8 @@ void () Impulse_Functions =
 
 #ifdef FTE
 
-			if (!checkMovement(forward))
-				return;
+			//if (!checkMovement(forward))
+			//	return;
 
 #endif // FTE
 
