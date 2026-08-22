@@ -5,3 +5,5 @@ bin/fteqcc.log
 *.DS_Store
 conhistory.txt
 *.log
+.vs
+/.vscode
