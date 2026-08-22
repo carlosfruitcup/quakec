@@ -181,12 +181,13 @@ void() HUD_Ammo =
 
 	float alpha = HUD_GetAlphaForWeaponObjects();
 
-	float ammo, curmag;
+	float ammo, curmag, maxammo;
 	string ammostring, ammostring_1, ammostring_2;
 	vector color;
-	
+
 	curmag = getstatf(STAT_CURRENTMAG);		
 	ammo = getstatf(STAT_AMMO);	
+	maxammo = getWeaponMag(getstatf(STAT_ACTIVEWEAPON));
 	
 	if (W_IsLowAmmo(getstatf(STAT_ACTIVEWEAPON), getstatf(STAT_CURRENTMAG), true))
 		color = [215/255, 0, 0];
@@ -199,18 +200,32 @@ void() HUD_Ammo =
 		color_2 = [1, 1, 1];
 
 	if (IsDualWeapon(getstatf(STAT_ACTIVEWEAPON))) {
+		ammostring_2 = ftos(ammo);
 		float curmag2 = getstatf(STAT_CURRENTMAG2);
+		float x = (g_width - GetUltraWideOffset())  - 62;
+
+		//background
+		drawfill([x - 127, g_height - 28], [102,13], [0,0,0], 0.4, 0);
+
+		drawfill([x - (128 - 51), g_height - 29], [((curmag) / maxammo) * 50,12], color_2, 1, 0);
+		drawfill([x - (128), g_height - 29], [((curmag2) / maxammo) * 50,12], color_2, 1, 0);
+
+		//drawfill([x - 128, g_height - 44], [(curmag2 / maxammo) * 100,12], color, 1, 0);
+		//drawfill([x - 128, g_height - 44], [100,12], [0,0,0], 0.4, 0);
 		
-		ammostring = strcat(ftos(curmag2), " ", ftos(curmag), "/", ftos(ammo));
-		float x2 = (g_width - GetUltraWideOffset()) - 62 - getTextWidth(ammostring, 12);
-		HUD_DrawStringWithBackdrop([x2, g_height - 29], ammostring, [12, 12], [1,1,1], alpha, 0);
+		if (ammo > 0)
+			HUD_DrawStringWithBackdrop([x - 16 , g_height - 29], ammostring_2, [12, 12], color_2, alpha, 0);
+
 	} else {
-		ammostring_1 = ftos(curmag);
-		ammostring_2 = strcat("/", ftos(ammo));
-		string weapon_ammo_string = strcat(ftos(curmag), "/", ftos(ammo));
-		float x = (g_width - GetUltraWideOffset())  - 62 - getTextWidth(weapon_ammo_string, 12);
-		HUD_DrawStringWithBackdrop([x, g_height - 29], ammostring_1, [12, 12], color, alpha, 0);
-		HUD_DrawStringWithBackdrop([x + getTextWidth(ammostring_1, 12), g_height - 29], ammostring_2, [12, 12], color_2, alpha, 0);
+		ammostring_2 = ftos(ammo);
+		float x = (g_width - GetUltraWideOffset())  - 62;
+
+		
+		drawfill([x - 127, g_height - 28], [101,13], [0,0,0], 0.4, 0);
+		drawfill([x - 128, g_height - 29], [(curmag / maxammo) * 100,12], color, 1, 0);
+		
+		if (ammo > 0)
+			HUD_DrawStringWithBackdrop([x - 16 , g_height - 29], ammostring_2, [12, 12], color_2, alpha, 0);
 	}
 }
 
@@ -471,12 +486,12 @@ void() HUD_Grenades =
 	else
 		betties_text_color = [1, 1, 1];
 
-	drawpic([g_width - 3 - 56 - GetUltraWideOffset(), g_height - 50], "gfx/hud/frag.tga", [32, 32], [1, 1, 1], alpha);
-	HUD_DrawStringWithBackdrop([g_width - 3 - 38 - GetUltraWideOffset(), g_height - 29], ftos(grenades), [12, 12], grenade_text_color, alpha, 0);
+	drawpic([g_width - 3 - 56 - GetUltraWideOffset(), g_height - 96], "gfx/hud/frag.tga", [32, 32], [1, 1, 1], alpha);
+	HUD_DrawStringWithBackdrop([g_width - 3 - 38 - GetUltraWideOffset(), g_height - 66], ftos(grenades), [12, 12], grenade_text_color, alpha, 0);
 
 	if (betties != -1) {
-		drawpic([g_width - 3 - 28 - GetUltraWideOffset(), g_height - 50], "gfx/hud/betty.tga", [32, 32], [1, 1, 1], alpha);
-		HUD_DrawStringWithBackdrop([g_width - 3 - 10 - GetUltraWideOffset(), g_height - 29], ftos(betties), [12, 12], betties_text_color, alpha, 0);
+		drawpic([g_width - 3 - 28 - GetUltraWideOffset(), g_height - 96], "gfx/hud/betty.tga", [32, 32], [1, 1, 1], alpha);
+		HUD_DrawStringWithBackdrop([g_width - 3 - 10 - GetUltraWideOffset(), g_height - 66], ftos(betties), [12, 12], betties_text_color, alpha, 0);
 	}
 }
 
