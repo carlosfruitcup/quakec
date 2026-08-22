@@ -3,6 +3,13 @@
 ## About
 This is the QuakeC portion of the NZ:P source code. QuakeC is responsible for most game-related code such as weapon logic, ai, and Perks. You can read more about QuakeC on the [Wikipedia page](https://en.wikipedia.org/wiki/QuakeC). NZ:P makes use of CSQC for PC/FTE.
 
+## RandomChanges Ver
+This version of NZ:P changes/adds some minor stuff, like changing Shotgun crosshairs to be AOE,
+Adding a dot to the middle of the crosshair in the settings and replacing the ammo hud.
+
+This version is not about being "better" than the main version and more just of being
+changes I like more/think would be cool, but don't think would fit the main version.
+
 ## Project Structure
 Here is a brief explanation for each of the (sub)directories in this repository:
 * `bin`: Command line binaries for [FTEQCC](https://www.fteqcc.org/) + the ini configuration file.
